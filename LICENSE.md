@@ -1,11 +1,11 @@
 ---
 layout: page
-title: Licenses
+title: Licences
 ---
 ## SUPA version
 
 This SUPA course is _very_ closely based on
-[the corresponding course](https://github.com/swcarpentry/shell-novice)
+[the corresponding course](https://github.com/swcarpentry/make-novice)
 from
 [Software Carpentry](http://software-carpentry.org/)
 with, in this iteration, only minor local changes.  We are grateful to
