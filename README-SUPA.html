@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>SUPA Software Carpentry: </title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <div class="banner">
+        <a href="http://www.supa.ac.uk" title="SUPA">
+          <img alt="SUPA logo" src="img/supa-logo-small.png"/>
+        </a>
+      </div>
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <h1 class="title"></h1>
+          <h1 id="notes-on-the-supa-branch">Notes on the SUPA branch</h1>
+<h2 id="building">Building</h2>
+<p>You need to install pandoc (from http://pandoc.org or otherwise), and the Python <code>pandocfilters</code> module (<code>pip install pandocfilters</code>).</p>
+<h2 id="appearance">Appearance</h2>
+<p>The CSS on the style comes from ‘Bootstrap’ which is a clearly very fancy javascript+CSS framework. After a certain amount of flailing around, it appears that the best way to manage this is to go to <a href="http://getbootstrap.com/customize/">their website</a> and customise a set of layouts. I chose to turn off all Javascript and jQuery components, and choose</p>
+<ul>
+<li><p>brand-primary: darken(#043469, 6.5%) (same as the SUPA logo colour)</p></li>
+<li><p>brand-success: lighten(#043469, 50%)</p></li>
+<li><p>brand-info: #5cfe4f</p></li>
+<li><p>brand-warning: #fee41e</p></li>
+<li><p>brand-danger: #fe1725</p></li>
+<li><p>Under ‘Typography’: font-family-sans-serif is “Gill Sans”, “Helvetica Neue”, Helvetica, Arial, sans-serif (though this is overridden in <code>swc.css</code>), and headings-font-weight: 300 (from 500), and font size multipliers (h1: 2.6 -&gt; 2.9, h2: 2.15 -&gt; 2.3, h3: 1.7-&gt;1.9, h4: 1.25 -&gt; 1.37); ranged right in <code>swc.css</code></p></li>
+<li><p>Under ‘Form states and alerts’:</p>
+<ul>
+<li><span class="citation">@state-success-text</span> darken(<span class="citation">@brand-success</span>, 50%)</li>
+<li><span class="citation">@state-success-bg</span> lighten(<span class="citation">@brand-success</span>, 50%)</li>
+<li><span class="citation">@state-success-border</span> darken(spin(<span class="citation">@state-success-bg</span>, -10), 5%)</li>
+<li><span class="citation">@state-info-text</span> darken(<span class="citation">@brand-info</span>, 40%)</li>
+<li><span class="citation">@state-info-bg</span> lighten(<span class="citation">@brand-info</span>, 10%)</li>
+<li><span class="citation">@state-info-border</span> darken(spin(<span class="citation">@state-info-bg</span>, -10), 7%)</li>
+<li><span class="citation">@state-warning-text</span> darken(<span class="citation">@brand-warning</span>, 30%)</li>
+<li><span class="citation">@state-warning-bg</span> lighten(<span class="citation">@brand-warning</span>, 20%)</li>
+<li><span class="citation">@state-warning-border</span> darken(spin(<span class="citation">@state-warning-bg</span>, -10), 5%)</li>
+<li><span class="citation">@state-danger-text</span> darken(<span class="citation">@brand-danger</span>, 30%)</li>
+<li><span class="citation">@state-danger-bg</span> lighten(<span class="citation">@brand-danger</span>, 20%)</li>
+<li><span class="citation">@state-danger-border</span> darken(spin(<span class="citation">@state-danger-bg</span>, -10), 5%)</li>
+</ul></li>
+</ul>
+        </div>
+      </div>
+      </article>
+      <div class="footer">
+        <a class="label swc-blue-bg" href="http://www.supa.ac.uk">SUPA</a>
+        <a class="label swc-blue-bg" href="https://github.com/supa-uk/swc-shell-novice">Source</a>
+        <a class="label swc-blue-bg" href="mailto:webmaster@supa.ac.uk">Contact</a>
+        <a class="label swc-blue-bg" href="LICENSE.html">Licence</a>
+      </div>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+  </body>
+</html>

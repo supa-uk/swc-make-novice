@@ -2,6 +2,17 @@
 layout: page
 title: Licenses
 ---
+## SUPA version
+
+This SUPA course is _very_ closely based on
+[the corresponding course](https://github.com/swcarpentry/shell-novice)
+from
+[Software Carpentry](http://software-carpentry.org/)
+with, in this iteration, only minor local changes.  We are grateful to
+Software Carpentry for their decision to make the materials available
+under a Creative Commons licence.  Our changes are of course available
+under the same licence.
+
 ## Instructional Material
 
 All Software Carpentry instructional material is made available under
