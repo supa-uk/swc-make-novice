@@ -155,7 +155,7 @@ python wordcount.py books/abyss.txt abyss.dat</code></pre>
 <h2 id="dry-runs"><span class="glyphicon glyphicon-pushpin"></span>Dry-runs</h2>
 </div>
 <div class="panel-body">
-<p>Sometimes – either when you’re debugging a Makefile of your own, or when you’re confronted by a Makefile written by someone else – it’s useful to see what <code>make</code> would do <em>without</em> actually doing it. For this you can use the <code>-n</code> or <code>--dry-run</code> option (quite a few unix commands which might have undesirable side-effects have such an option). If we deleted the <code>*.dat</code> files, as before, and then type</p>
+<p>Sometimes – either when you’re debugging a Makefile of your own, or when you’re confronted by a Makefile written by someone else – it’s useful to see what <code>make</code> would do <em>without</em> actually doing it. For this you can use the <code>-n</code> or <code>--dry-run</code> option (quite a few unix commands which might have undesirable side-effects have such an option). If we deleted the <code>*.dat</code> files, as before, and then typed</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">make</span> -n dats</code></pre></div>
 <p>then Make would display</p>
 <pre class="output"><code>python wordcount.py books/isles.txt isles.dat
