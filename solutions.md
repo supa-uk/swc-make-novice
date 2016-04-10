@@ -162,7 +162,7 @@ clean :
 > Finally, many Makefiles define a default [phony target](reference.html#phony-target) called `all` that will build what the Makefile has been written to build (e.g. in our case, `analysis.tar.gz`). As others may assume your Makefile confirms to convention and supports an `all` target, add an `all` target to your Makefile (Hint: this rule has a single dependency but no actions).
 
 ~~~{.bash}
-# config.mk
+# Makefile
 # Count words script.
 COUNT_SRC=wordcount.py
 COUNT_EXE=python $(COUNT_SRC)
@@ -170,11 +170,7 @@ COUNT_EXE=python $(COUNT_SRC)
 # Plot word counts script.
 PLOT_SRC=plotcount.py
 PLOT_EXE=python $(PLOT_SRC)
-~~~
 
-~~~{.bash}
-# Makefile
-include config.mk
 
 TXT_FILES=$(wildcard books/*.txt)
 DAT_FILES=$(patsubst books/%.txt, %.dat, $(TXT_FILES))

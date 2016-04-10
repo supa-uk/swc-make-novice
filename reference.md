@@ -160,7 +160,7 @@ Include the contents of a Makefile in another Makefile:
 include config.mk
 ~~~
 
-wildcard function:
+Wildcard function:
 
 ~~~ {.make}
 TXT_FILES=$(wildcard books/*.txt)

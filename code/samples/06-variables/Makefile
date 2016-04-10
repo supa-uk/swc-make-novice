@@ -1,4 +1,7 @@
-include config.mk
+# Count words script.
+COUNT_SRC=wordcount.py
+COUNT_EXE=python $(COUNT_SRC)
+
 
 # Generate archive file.
 analysis.tar.gz : *.dat $(COUNT_SRC)

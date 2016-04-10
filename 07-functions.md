@@ -14,7 +14,9 @@ minutes: 0
 At this point, we have the following Makefile:
 
 ~~~ {.make}
-include config.mk
+COUNT_SRC=wordcount.py
+COUNT_EXE=python $(COUNT_SRC)
+
 
 # Generate archive file.
 analysis.tar.gz : *.dat $(COUNT_SRC)
@@ -173,7 +175,9 @@ names from those `.txt` file names in `books/`.
 Here is our final Makefile:
 
 ~~~ {.make}
-include config.mk
+COUNT_SRC=wordcount.py
+COUNT_EXE=python $(COUNT_SRC)
+
 
 TXT_FILES=$(wildcard books/*.txt)
 DAT_FILES=$(patsubst books/%.txt, %.dat, $(TXT_FILES))
@@ -198,12 +202,4 @@ clean :
 variables:
 	@echo TXT_FILES: $(TXT_FILES)
 	@echo DAT_FILES: $(DAT_FILES)
-~~~
-
-Remember, the `config.mk` file contains:
-
-~~~ {.make}
-# Count words script.
-COUNT_SRC=wordcount.py
-COUNT_EXE=python $(COUNT_SRC)
 ~~~
