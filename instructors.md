@@ -117,12 +117,12 @@ Use variables - challenge
 * Allow 10 minutes.
 * `06-variables-challenge/Makefile` contains a solution.
 
-`06-variables/Makefile` and `06-variables/config.mk` contains an
+`06-variables/Makefile` contains an
 example of the Makefiles on completion of the topic.
 
 ## [Functions](07-functions.html)
 
-`07-functions/Makefile` and `07-functions/config.mk` contains an
+`07-functions/Makefile` contains an
 example of the Makefiles on completion of the topic.
 
 ## [Conclusion](08-conclusion.html)
@@ -130,5 +130,4 @@ example of the Makefiles on completion of the topic.
 Extend the Makefile to create PNGs - challenge
 
 * Allow 15 minutes.
-* `08-conclusion-challenge/Makefile` and
-  `08-conclusion-challenge/config.mk` contain a solution.
+* `08-conclusion-challenge/Makefile` contains a solution.

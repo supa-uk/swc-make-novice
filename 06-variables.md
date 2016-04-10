@@ -55,22 +55,8 @@ used to implement our script from Python to R).
 > Update `Makefile` so that the `%.dat` and `analysis.tar.gz` rules
 > reference the variables `COUNT_SRC` and `COUNT_EXE`.
 
-We place variables at the top of a Makefile means they are easy to
-find and modify. Alternatively, we can pull them out into a new
-Makefile that just holds variable definitions. Let us create
-`config.mk`:
-
-~~~ {.make}
-# Count words script.
-COUNT_SRC=wordcount.py
-COUNT_EXE=python $(COUNT_SRC)
-~~~
-
-We can then import this Makefile into `Makefile` using:
-
-~~~ {.make}
-include config.mk
-~~~
+We place variables at the top of a Makefile so that they are easy to
+find and modify.
 
 We can re-run Make to see that everything still works:
 
@@ -79,10 +65,3 @@ $ make clean
 $ make dats
 $ make analysis.tar.gz
 ~~~
-
-We have separated the configuration of our Makefile from its rules,
-the parts that do all the work. If we want to change our script name
-or how it is executed we just need to edit our configuration file, not
-our source code in `Makefile`. Decoupling code from configuration in
-this way is good programming practice, as it promotes more modular,
-flexible and reusable code.

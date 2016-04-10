@@ -63,6 +63,7 @@ the same concepts as Make.
 6.  [Variables](06-variables.html)
 7.  [Functions](07-functions.html)
 8.  [Conclusion](08-conclusion.html)
+9.  [Style notes](09-style.html)
 
 ## Other Resources
 

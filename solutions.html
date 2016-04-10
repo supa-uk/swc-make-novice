@@ -164,16 +164,15 @@ $ <span class="kw">make</span> analysis.tar.gz</code></pre></div>
 </ul>
 </div>
 </section>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># config.mk</span>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Makefile</span>
 <span class="co"># Count words script.</span>
 <span class="ot">COUNT_SRC=</span>wordcount.py
 <span class="ot">COUNT_EXE=</span>python <span class="ot">$(</span><span class="kw">COUNT_SRC</span><span class="ot">)</span>
 
 <span class="co"># Plot word counts script.</span>
 <span class="ot">PLOT_SRC=</span>plotcount.py
-<span class="ot">PLOT_EXE=</span>python <span class="ot">$(</span><span class="kw">PLOT_SRC</span><span class="ot">)</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Makefile</span>
-<span class="kw">include</span> config.mk
+<span class="ot">PLOT_EXE=</span>python <span class="ot">$(</span><span class="kw">PLOT_SRC</span><span class="ot">)</span>
+
 
 <span class="ot">TXT_FILES=$(</span><span class="kw">wildcard</span> books/*.txt<span class="ot">)</span>
 <span class="ot">DAT_FILES=$(</span><span class="kw">patsubst</span> books/%.txt, %.dat, <span class="ot">$(</span><span class="kw">TXT_FILES</span><span class="ot">))</span>

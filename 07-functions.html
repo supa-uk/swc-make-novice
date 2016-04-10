@@ -39,7 +39,9 @@
 </div>
 </section>
 <p>At this point, we have the following Makefile:</p>
-<pre class="make"><code>include config.mk
+<pre class="make"><code>COUNT_SRC=wordcount.py
+COUNT_EXE=python $(COUNT_SRC)
+
 
 # Generate archive file.
 analysis.tar.gz : *.dat $(COUNT_SRC)
@@ -124,7 +126,9 @@ python wordcount.py books/sierra.txt sierra.dat
 tar -czf analysis.tar.gz abyss.dat isles.dat last.dat sierra.dat wordcount.py</code></pre>
 <p>We see that the problem we had when using the bash wild-card, <code>*.dat</code>, which required us to run <code>make dats</code> before <code>make analysis.tar.gz</code> has now disappeared, since our functions allow us to create <code>.dat</code> file names from those <code>.txt</code> file names in <code>books/</code>.</p>
 <p>Here is our final Makefile:</p>
-<pre class="make"><code>include config.mk
+<pre class="make"><code>COUNT_SRC=wordcount.py
+COUNT_EXE=python $(COUNT_SRC)
+
 
 TXT_FILES=$(wildcard books/*.txt)
 DAT_FILES=$(patsubst books/%.txt, %.dat, $(TXT_FILES))
@@ -149,10 +153,6 @@ clean :
 variables:
     @echo TXT_FILES: $(TXT_FILES)
     @echo DAT_FILES: $(DAT_FILES)</code></pre>
-<p>Remember, the <code>config.mk</code> file contains:</p>
-<pre class="make"><code># Count words script.
-COUNT_SRC=wordcount.py
-COUNT_EXE=python $(COUNT_SRC)</code></pre>
         </div>
       </div>
       </article>

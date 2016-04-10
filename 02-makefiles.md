@@ -306,6 +306,27 @@ then Make sees that the data files exist:
 make: Nothing to be done for `dats'.
 ~~~
 
+> ## Dry-runs {.callout}
+>
+> Sometimes – either when you're debugging a Makefile of your own, or
+> when you're confronted by a Makefile written by someone else – it's
+> useful to see what `make` would do _without_ actually doing it.  For
+> this you can use the `-n` or `--dry-run` option (quite a few unix
+> commands which might have undesirable side-effects have such an
+> option).  If we deleted the `*.dat` files, as before, and then typed
+>
+> ~~~ {.bash}
+> $ make -n dats
+> ~~~
+> 
+> then Make would display
+> 
+> ~~~ {.output}
+> python wordcount.py books/isles.txt isles.dat
+> python wordcount.py books/abyss.txt abyss.dat
+> ~~~
+> just as before, but this time _without_ actually creating the outputs.
+
 Our Makefile now looks like this:
 
 ~~~ {.make}
