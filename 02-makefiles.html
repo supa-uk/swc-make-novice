@@ -151,6 +151,19 @@ python wordcount.py books/abyss.txt abyss.dat</code></pre>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">make</span> dats</code></pre></div>
 <p>then Make sees that the data files exist:</p>
 <pre class="output"><code>make: Nothing to be done for `dats&#39;.</code></pre>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="dry-runs"><span class="glyphicon glyphicon-pushpin"></span>Dry-runs</h2>
+</div>
+<div class="panel-body">
+<p>Sometimes – either when you’re debugging a Makefile of your own, or when you’re confronted by a Makefile written by someone else – it’s useful to see what <code>make</code> would do <em>without</em> actually doing it. For this you can use the <code>-n</code> or <code>--dry-run</code> option (quite a few unix commands which might have undesirable side-effects have such an option). If we deleted the <code>*.dat</code> files, as before, and then type</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">make</span> -n dats</code></pre></div>
+<p>then Make would display</p>
+<pre class="output"><code>python wordcount.py books/isles.txt isles.dat
+python wordcount.py books/abyss.txt abyss.dat</code></pre>
+<p>just as before, but this time <em>without</em> actually creating the outputs.</p>
+</div>
+</aside>
 <p>Our Makefile now looks like this:</p>
 <pre class="make"><code># Count words.
 .PHONY : dats
