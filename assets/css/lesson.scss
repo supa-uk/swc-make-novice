@@ -67,11 +67,18 @@ $codeblock-padding: 5px !default;
   h2 {
     padding-top: $codeblock-padding;
     padding-bottom: $codeblock-padding;
+    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: light;
+    text-align: right;
+    background: linear-gradient(to bottom, $gradientcolor1, $gradientcolor2);
+    border-color: $color;
+    /*
     font-size: 20px;
     background: linear-gradient(to bottom, $gradientcolor1, $gradientcolor2);
     border-color: $color;
     margin-top: 0px;
     margin-left: -$codeblock-padding; // to move back to the left margin of the enclosing blockquote
+    */
   }
   h2:before {
     font-family: 'Glyphicons Halflings';
@@ -81,6 +88,25 @@ $codeblock-padding: 5px !default;
     padding-right: $codeblock-padding;
     display: inline-block;
     -webkit-font-smoothing: antialiased;
+  }
+  h1, h2 {
+      margin-top: 40px;
+      /* margin-bottom: 10px; */
+      margin-bottom: 20px;
+  }
+
+  h1.title {
+      margin: 40px 0px;
+      padding: 20px 10px;
+      background-color: #f8f8f8;
+  }
+
+  h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+      color: inherit;
+  }
+
+  h2 code, h3 code, h4 code, h5 code, h6 code {
+      font-size: inherit;
   }
 
 }

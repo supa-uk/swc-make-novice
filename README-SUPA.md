@@ -4,8 +4,7 @@ Notes on the SUPA branch
 Building
 --------
 
-You need to install pandoc (from http://pandoc.org or otherwise), and the
-Python `pandocfilters` module (`pip install pandocfilters`).
+You need to install [Jekyll](https://jekyllrb.com).  Then `make site`.
 
 Appearance
 ----------
