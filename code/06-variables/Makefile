@@ -1,0 +1,20 @@
+# Count words script.
+COUNT_SRC=wordcount.py
+COUNT_EXE=python $(COUNT_SRC)
+
+
+# Generate summary table.
+results.txt : *.dat $(ZIPF_SRC)
+	$(ZIPF_EXE) *.dat > $@
+
+# Count words.
+.PHONY : dats
+dats : isles.dat abyss.dat last.dat
+
+%.dat : books/%.txt $(COUNT_SRC)
+	$(COUNT_EXE) $< $*.dat
+
+.PHONY : clean
+clean :
+	rm -f *.dat
+	rm -f results.txt
