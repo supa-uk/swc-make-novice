@@ -22,7 +22,7 @@ Create a file, called `Makefile`, with the following content:
 ~~~
 # Count words.
 isles.dat : books/isles.txt
-        python wordcount.py books/isles.txt isles.dat
+	python wordcount.py books/isles.txt isles.dat
 ~~~
 {: .make}
 
@@ -52,7 +52,7 @@ Let us go through each line in turn:
   your cursor from one side of the TAB to the other. It should jump
   four or more spaces.
 * Together, the target, dependencies, and actions form a
-  a [rule]({{ page.root }}/reference/#rule).
+  [rule]({{ page.root }}/reference/#rule).
 
 Our rule above describes how to build the target `isles.dat` using the
 action `python wordcount.py` and the dependency `books/isles.txt`.
@@ -61,7 +61,7 @@ Information that was implicit in our shell script - that we are
 generating a file called `isles.dat` and that creating this file
 requires `books/isles.txt` - is now made explicit by Make's syntax.
 
-Let's first sure we start from scratch and delete the `.dat` and `.png`
+Let's first ensure we start from scratch and delete the `.dat` and `.png`
 files we created earlier:
 
 ~~~
@@ -186,7 +186,7 @@ Let's add another rule to the end of `Makefile`:
 
 ~~~
 abyss.dat : books/abyss.txt
-        python wordcount.py books/abyss.txt abyss.dat
+	python wordcount.py books/abyss.txt abyss.dat
 ~~~
 {: .make}
 
@@ -245,9 +245,13 @@ python wordcount.py books/abyss.txt abyss.dat
 > ~~~
 > {: .output}
 >
-> `up to date` means that the Makefile has a rule for the file and
-> the file is up to date whereas `Nothing to be done` means that
-> the file exists but the Makefile has no rule for it.
+> `up to date` means that the Makefile has a rule with one or more actions
+> whose target is the name of a file (or directory) and the file is up to date.
+>
+> `Nothing to be done` means that
+> the file exists but either :
+> - the Makefile has no rule for it, or
+> - the Makefile has a rule for it, but that rule has no actions
 {: .callout}
 
 
@@ -258,7 +262,7 @@ delete auto-generated files, like our `.dat` files:
 
 ~~~
 clean :
-        rm -f *.dat
+	rm -f *.dat
 ~~~
 {: .make}
 
@@ -374,14 +378,13 @@ python wordcount.py books/abyss.txt abyss.dat
 ~~~
 {: .output}
 
-If we run `dats` again,
-
+If we run `dats` again, then Make will see that the dependencies (isles.dat
+and abyss.dat) are already up to date. 
+Given the target `dats` has no actions, there is `nothing to be done`:
 ~~~
 $ make dats
 ~~~
 {: .bash}
-
-then Make sees that the data files exist:
 
 ~~~
 make: Nothing to be done for `dats'.
@@ -417,14 +420,14 @@ Our Makefile now looks like this:
 dats : isles.dat abyss.dat
 
 isles.dat : books/isles.txt
-        python wordcount.py books/isles.txt isles.dat
+	python wordcount.py books/isles.txt isles.dat
 
 abyss.dat : books/abyss.txt
-        python wordcount.py books/abyss.txt abyss.dat
+	python wordcount.py books/abyss.txt abyss.dat
 
 .PHONY : clean
 clean :
-        rm -f *.dat
+	rm -f *.dat
 ~~~
 {: .make}
 

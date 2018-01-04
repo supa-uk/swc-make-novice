@@ -16,26 +16,26 @@ Our Makefile now looks like this:
 
 ~~~
 # Generate summary table.
-results.txt : *.dat
-        python zipf_test.py $^ > $@
+results.txt : isles.dat abyss.dat last.dat
+	python zipf_test.py $^ > $@
 
 # Count words.
 .PHONY : dats
 dats : isles.dat abyss.dat last.dat
 
 isles.dat : books/isles.txt
-        python wordcount.py $< $@
+	python wordcount.py $< $@
 
 abyss.dat : books/abyss.txt
-        python wordcount.py $< $@
+	python wordcount.py $< $@
 
 last.dat : books/last.txt
-        python wordcount.py $< $@
+	python wordcount.py $< $@
 
 .PHONY : clean
 clean :
-        rm -f *.dat
-        rm -f results.txt
+	rm -f *.dat
+	rm -f results.txt
 ~~~
 {: .make}
 
@@ -62,13 +62,13 @@ data files also:
 
 ~~~
 isles.dat : books/isles.txt wordcount.py
-        python wordcount.py $< $@
+	python wordcount.py $< $@
 
 abyss.dat : books/abyss.txt wordcount.py
-        python wordcount.py $< $@
+	python wordcount.py $< $@
 
 last.dat : books/last.txt wordcount.py
-        python wordcount.py $< $@
+	python wordcount.py $< $@
 ~~~
 {: .make}
 
@@ -89,15 +89,6 @@ python wordcount.py books/last.txt last.dat
 ~~~
 {: .output}
 
-Similarly, we should add the `zipf_test.py` script as dependency to the rule for `results.txt`:
-
-~~~
-# Generate summary table.
-results.txt : *.dat zipf_test.py
-        python zipf_test.py $^ > $@
-~~~
-{: .make}
-
 > ## Dry run
 >
 > `make` can show the commands it will execute without actually running them if we pass the `-n` flag:
@@ -114,7 +105,9 @@ results.txt : *.dat zipf_test.py
 
 The following figure shows the dependencies embodied within our
 Makefile, involved in building the `results.txt` target, after adding
-`wordcount.py` and `zipf_test.py` as dependencies to their respective target files:
+`wordcount.py` and `zipf_test.py` as dependencies to their respective target files
+(i.e. how the Makefile should look after completing the rest of the exercises
+in this episode).
 
 ![results.txt dependencies after adding wordcount.py and zipf_test.py as dependencies](../fig/04-dependencies.png "results.txt dependencies after adding wordcount.py and zipf_test.py as dependencies")
 
@@ -178,24 +171,24 @@ downstream steps.
 > {: .solution}
 {: .challenge}
 
-> ## `wordcount` as a Dependency of `results.txt`.
+> ## `zipf_test.py` as a Dependency of `results.txt`.
 >
-> What would happen if you actually added `wordcount.py` as dependency of `results.txt`, and why?
+> What would happen if you added `zipf_test.py` as dependency of `results.txt`, and why?
 >
 > > ## Solution
 > >
 > > If you change the rule for the `results.txt` file like this:
 > >
 > > ~~~
-> > results.txt : *.dat wordcount.py
+> > results.txt : isles.dat abyss.dat last.dat zipf_test.py
 > >         python zipf_test.py $^ > $@
 > > ~~~
 > > {: .make}
 > >
-> > `wordcount.py` becomes a part of `$^`, thus the command becomes
+> > `zipf_test.py` becomes a part of `$^`, thus the command becomes
 > >
 > > ~~~
-> > python zipf_test.py abyss.dat isles.dat last.dat wordcount.py > results.txt
+> > python zipf_test.py abyss.dat isles.dat last.dat zipf_test.py > results.txt
 > > ~~~
 > > {: .bash}
 > >
@@ -210,11 +203,11 @@ downstream steps.
 > > You'll get
 > >
 > > ~~~
-> > python zipf_test.py abyss.dat isles.dat last.dat wordcount.py > results.txt
+> > python zipf_test.py abyss.dat isles.dat last.dat zipf_test.py > results.txt
 > > Traceback (most recent call last):
 > >   File "zipf_test.py", line 19, in <module>
 > >     counts = load_word_counts(input_file)
-> >   File "path/to/wordcount.py", line 39, in load_word_counts
+> >   File "path/to/zipf_test.py", line 39, in load_word_counts
 > >     counts.append((fields[0], int(fields[1]), float(fields[2])))
 > > IndexError: list index out of range
 > > make: *** [results.txt] Error 1
@@ -223,13 +216,17 @@ downstream steps.
 > {: .solution}
 {: .challenge}
 
-We still have to add the `zipf-test.py` script as dependency to
+We still have to add the `zipf_test.py` script as dependency to
 `results.txt`. Given the answer to the challenge above, we cannot use
-`$^` for the rule. We'll go back to using `*.dat`:
+`$^` in the rule.  
+We can however move `zipf_test.py` to be the
+first dependency and then use `$<` to refer to it. 
+In order to refer to the `.dat` files, we can just use `*.dat` for now (we will
+cover a better solution later on).
 
 ~~~
-results.txt : *.dat zipf_test.py
-        python zipf_test.py *.dat > $@
+results.txt : zipf_test.py isles.dat abyss.dat last.dat
+	python $< *.dat > $@
 ~~~
 {: .make}
 

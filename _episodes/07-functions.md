@@ -18,20 +18,20 @@ At this point, we have the following Makefile:
 include config.mk
 
 # Generate summary table.
-results.txt : *.dat $(ZIPF_SRC)
-        $(ZIPF_EXE) *.dat > $@
+results.txt : $(ZIPF_SRC) isles.dat abyss.dat last.dat
+	$(ZIPF_EXE) *.dat > $@
 
 # Count words.
 .PHONY : dats
 dats : isles.dat abyss.dat last.dat
 
 %.dat : books/%.txt $(COUNT_SRC)
-        $(COUNT_EXE) $< $*.dat
+	$(COUNT_EXE) $< $*.dat
 
 .PHONY : clean
 clean :
-        rm -f *.dat
-        rm -f results.txt
+	rm -f *.dat
+	rm -f results.txt
 ~~~
 {: .make}
 
@@ -47,7 +47,7 @@ TXT_FILES=$(wildcard books/*.txt)
 ~~~
 {: .make}
 
-We can add `.PHONY` target and rule to show the variable's value:
+We can add a `.PHONY` target and rule to show the variable's value:
 
 ~~~
 .PHONY : variables
@@ -103,8 +103,8 @@ We can extend `variables` to show the value of `DAT_FILES` too:
 ~~~
 .PHONY : variables
 variables:
-        @echo TXT_FILES: $(TXT_FILES)
-        @echo DAT_FILES: $(DAT_FILES)
+	@echo TXT_FILES: $(TXT_FILES)
+	@echo DAT_FILES: $(DAT_FILES)
 ~~~
 {: .make}
 
@@ -133,9 +133,17 @@ dats : $(DAT_FILES)
 
 .PHONY : clean
 clean :
-        rm -f $(DAT_FILES)
-        rm -f results.txt
+	rm -f $(DAT_FILES)
+	rm -f results.txt
 ~~~
+{: .make}
+
+Let's also tidy up the `%.dat` rule by using the automatic variable `$@` instead of `$*.dat`:
+
+```
+%.dat : books/%.txt $(COUNT_SRC)
+	$(COUNT_EXE) $< $@
+```
 {: .make}
 
 Let's check:
@@ -156,11 +164,11 @@ python wordcount.py books/sierra.txt sierra.dat
 ~~~
 {: .output}
 
-We can also rewrite `results.txt`:
+We can also rewrite `results.txt`: 
 
 ~~~
 results.txt : $(DAT_FILES) $(ZIPF_SRC)
-        $(ZIPF_EXE) *.dat > $@
+	$(ZIPF_EXE) $(DAT_FILES) > $@
 ~~~
 {: .make}
 
@@ -179,14 +187,9 @@ python wordcount.py books/abyss.txt abyss.dat
 python wordcount.py books/isles.txt isles.dat
 python wordcount.py books/last.txt last.dat
 python wordcount.py books/sierra.txt sierra.dat
-python zipf_test.py *.dat > results.txt
+python zipf_test.py  last.dat  isles.dat  abyss.dat  sierra.dat > results.txt
 ~~~
 {: .output}
-
-We see that the problem we had when using the bash wild-card, `*.dat`,
-which required us to run `make dats` before `make results.txt` has
-now disappeared, since our functions allow us to create `.dat` file
-names from those `.txt` file names in `books/`.
 
 Let's check the `results.txt` file:
 
@@ -217,14 +220,14 @@ DAT_FILES=$(patsubst books/%.txt, %.dat, $(TXT_FILES))
 
 # Generate summary table.
 results.txt : $(DAT_FILES) $(ZIPF_SRC)
-	$(ZIPF_EXE) *.dat > $@
+	$(ZIPF_EXE) $(DAT_FILES) > $@
 
 # Count words.
 .PHONY : dats
 dats : $(DAT_FILES)
 
 %.dat : books/%.txt $(COUNT_SRC)
-	$(COUNT_EXE) $< $*.dat
+	$(COUNT_EXE) $< $@
 
 .PHONY : clean
 clean :

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Licences
-permalink: /licence/
+root: .
 ---
 ## SUPA version
 

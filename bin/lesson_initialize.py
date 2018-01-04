@@ -45,7 +45,7 @@ This is a good way to introduce yourself
 and to meet some of our community members.
 
 1.  If you do not have a [GitHub][github] account,
-    you can [send us comments by email][contact].
+    you can [send us comments by email][email].
     However,
     we will be able to respond more quickly if you use one of the other methods described below.
 
@@ -151,14 +151,13 @@ and have final say over what gets merged into the lesson.
 General discussion of [Software Carpentry][swc-site] and [Data Carpentry][dc-site]
 happens on the [discussion mailing list][discuss-list],
 which everyone is welcome to join.
-You can also [reach us by email][contact].
+You can also [reach us by email][email].
 
-[contact]: mailto:admin@software-carpentry.org
+[email]: mailto:admin@software-carpentry.org
 [dc-issues]: https://github.com/issues?q=user%3Adatacarpentry
 [dc-lessons]: http://datacarpentry.org/lessons/
 [dc-site]: http://datacarpentry.org/
 [discuss-list]: http://lists.software-carpentry.org/listinfo/discuss
-[example-site]: https://swcarpentry.github.io/lesson-example/
 [github]: http://github.com
 [github-flow]: https://guides.github.com/introduction/flow/
 [github-join]: https://github.com/join
@@ -175,14 +174,16 @@ ROOT_CONFIG_YML = '''\
 # Values for this lesson.
 #------------------------------------------------------------
 
-# Which carpentry is this ("swc" or "dc")?
+# Which carpentry is this ("swc", "dc", or "lc")?
 carpentry: "swc"
 
 # Overall title for pages.
 title: "Lesson Title"
 
-# Contact email address.
-email: lessons@software-carpentry.org
+# Contact.  This *must* include the protocol: if it's an email
+# address, it must look like "mailto:lessons@software-carpentry.org",
+# or if it's a URL, "https://gitter.im/username/ProjectName".
+email: "mailto:lessons@software-carpentry.org"
 
 #------------------------------------------------------------
 # Generic settings (should not need to change).
@@ -201,6 +202,7 @@ dc_site: "http://datacarpentry.org"
 swc_github: "https://github.com/swcarpentry"
 swc_site: "https://software-carpentry.org"
 swc_pages: "https://swcarpentry.github.io"
+lc_site: "http://librarycarpentry.github.io/"
 template_repo: "https://github.com/swcarpentry/styles"
 example_repo: "https://github.com/swcarpentry/lesson-example"
 example_site: "https://swcarpentry.github.com/lesson-example"
@@ -211,6 +213,7 @@ training_site: "https://swcarpentry.github.io/instructor-training"
 # Surveys.
 pre_survey: "https://www.surveymonkey.com/r/swc_pre_workshop_v1?workshop_id="
 post_survey: "https://www.surveymonkey.com/r/swc_post_workshop_v1?workshop_id="
+training_post_survey: "https://www.surveymonkey.com/r/post-instructor-training"
 
 # Start time in minutes (0 to be clock-independent, 540 to show a start at 09:00 am).
 start_time: 0
@@ -219,9 +222,10 @@ start_time: 0
 collections:
   episodes:
     output: true
-    permalink: /:path/
+    permalink: /:path/index.html
   extras:
     output: true
+    permalink: /:path/index.html
 
 # Set the default layout for things in the episodes collection.
 defaults:
@@ -238,14 +242,15 @@ exclude:
   - Makefile
   - bin
 
-# Turn off built-in syntax highlighting.
-highlighter: false
+# Turn on built-in syntax highlighting.
+highlighter: rouge
 '''
 
 ROOT_INDEX_MD = '''\
 ---
 layout: lesson
 root: .
+permalink: index.html  # Is the only page that don't follow the partner /:path/index.html
 ---
 FIXME: home page introduction
 
@@ -258,7 +263,7 @@ FIXME: home page introduction
 ROOT_REFERENCE_MD = '''\
 ---
 layout: reference
-permalink: /reference/
+root: .
 ---
 
 ## Glossary
@@ -270,9 +275,48 @@ ROOT_SETUP_MD = '''\
 ---
 layout: page
 title: Setup
-permalink: /setup/
+root: .
 ---
 FIXME
+'''
+
+ROOT_AIO_MD = '''\
+---
+layout: page 
+root: .
+---
+<script>
+  window.onload = function() {
+    var lesson_episodes = [
+    {% for episode in site.episodes %}
+    "{{ episode.url}}"{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    ];
+    var xmlHttp = [];  /* Required since we are going to query every episode. */
+    for (i=0; i < lesson_episodes.length; i++) {
+      xmlHttp[i] = new XMLHttpRequest();
+      xmlHttp[i].episode = lesson_episodes[i];  /* To enable use this later. */
+      xmlHttp[i].onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var article_here = document.getElementById(this.episode);
+        var parser = new DOMParser();
+        var htmlDoc = parser.parseFromString(this.responseText,"text/html");
+        var htmlDocArticle = htmlDoc.getElementsByTagName("article")[0];
+        article_here.innerHTML = htmlDocArticle.innerHTML;
+        }
+      }
+      episode_url = "{{ page.root }}" + lesson_episodes[i];
+      xmlHttp[i].open("GET", episode_url);
+      xmlHttp[i].send(null);
+    }
+  }
+</script>
+{% comment %}
+Create anchor for each one of the episodes.
+{% endcomment %}
+{% for episode in site.episodes %}
+<article id="{{ episode.url }}"></article>
+{% endfor %}
 '''
 
 EPISODES_INTRODUCTION_MD = '''\
@@ -293,7 +337,6 @@ EXTRAS_ABOUT_MD = '''\
 ---
 layout: page
 title: About
-permalink: /about/
 ---
 {% include carpentries.html %}
 '''
@@ -302,7 +345,6 @@ EXTRAS_DISCUSS_MD = '''\
 ---
 layout: page
 title: Discussion
-permalink: /discuss/
 ---
 FIXME
 '''
@@ -311,22 +353,50 @@ EXTRAS_FIGURES_MD = '''\
 ---
 layout: page
 title: Figures
-permalink: /figures/
 ---
-{% include all_figures.html %}
+<script>
+  window.onload = function() {
+    var lesson_episodes = [
+    {% for episode in site.episodes %}
+    "{{ episode.url}}"{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    ];
+    var xmlHttp = [];  /* Required since we are going to query every episode. */
+    for (i=0; i < lesson_episodes.length; i++) {
+      xmlHttp[i] = new XMLHttpRequest();
+      xmlHttp[i].episode = lesson_episodes[i];  /* To enable use this later. */
+      xmlHttp[i].onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var article_here = document.getElementById(this.episode);
+          var parser = new DOMParser();
+          var htmlDoc = parser.parseFromString(this.responseText,"text/html");
+          var htmlDocArticle = htmlDoc.getElementsByTagName("article")[0];
+          article_here.appendChild(htmlDocArticle.getElementsByTagName("h1")[0]);
+          for (let image of htmlDocArticle.getElementsByTagName("img")) {
+            article_here.appendChild(image);
+          }
+        }
+      }
+      episode_url = "{{ page.root }}" + lesson_episodes[i];
+      xmlHttp[i].open("GET", episode_url);
+      xmlHttp[i].send(null);
+    }
+  }
+</script>
+{% comment %}
+Create anchor for each one of the episodes.
+{% endcomment %}
+{% for episode in site.episodes %}
+<article id="{{ episode.url }}"></article>
+{% endfor %}
 '''
 
 EXTRAS_GUIDE_MD = '''\
 ---
 layout: page
 title: "Instructor Notes"
-permalink: /guide/
 ---
 FIXME
-'''
-
-INCLUDES_ALL_FIGURES_HTML = '''\
-<!-- empty -->
 '''
 
 BOILERPLATE = (
@@ -337,12 +407,12 @@ BOILERPLATE = (
     ('index.md', ROOT_INDEX_MD),
     ('reference.md', ROOT_REFERENCE_MD),
     ('setup.md', ROOT_SETUP_MD),
+    ('aio.md', ROOT_AIO_MD),
     ('_episodes/01-introduction.md', EPISODES_INTRODUCTION_MD),
     ('_extras/about.md', EXTRAS_ABOUT_MD),
     ('_extras/discuss.md', EXTRAS_DISCUSS_MD),
     ('_extras/figures.md', EXTRAS_FIGURES_MD),
     ('_extras/guide.md', EXTRAS_GUIDE_MD),
-    ('_includes/all_figures.html', INCLUDES_ALL_FIGURES_HTML)
 )
 
 
