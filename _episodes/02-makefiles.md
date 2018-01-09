@@ -391,7 +391,7 @@ make: Nothing to be done for `dats'.
 ~~~
 {: .output}
 
-> ## Dry-runs {.callout}
+> ## Dry-runs
 >
 > Sometimes – either when you're debugging a Makefile of your own, or
 > when you're confronted by a Makefile written by someone else – it's
@@ -411,6 +411,7 @@ make: Nothing to be done for `dats'.
 > python wordcount.py books/abyss.txt abyss.dat
 > ~~~
 > just as before, but this time _without_ actually creating the outputs.
+{: .callout}
 
 Our Makefile now looks like this:
 
