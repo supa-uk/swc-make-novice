@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import sys
 from collections import Sequence
 
-from wordcount import load_word_counts
+from countwords import load_word_counts
 
 
 def plot_word_counts(counts, limit=10):
@@ -13,16 +13,22 @@ def plot_word_counts(counts, limit=10):
     Given a list of (word, count, percentage) tuples, plot the counts as a
     histogram. Only the first limit tuples are plotted.
     """
-    plt.title("Word Counts")
     limited_counts = counts[0:limit]
     word_data = [word for (word, _, _) in limited_counts]
     count_data = [count for (_, count, _) in limited_counts]
     position = np.arange(len(word_data))
     width = 1.0
     ax = plt.axes()
-    ax.set_xticks(position + (width / 2))
+    ax.set_xticks(position)
     ax.set_xticklabels(word_data)
     plt.bar(position, count_data, width, color='b')
+    plt.title("Word Counts")
+    ax.set_ylabel("Counts")
+    ax.set_xlabel("Word")
+    try:
+       plt.margins(x=0)
+    except ValueError:
+       return
 
 
 def typeset_labels(labels=None, gap=5):

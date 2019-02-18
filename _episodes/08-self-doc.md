@@ -1,7 +1,7 @@
 ---
 title: "Self-Documenting Makefiles"
 teaching: 15
-exercises: 15
+exercises: 0
 questions:
 - "How should I document a Makefile?"
 objectives:
@@ -22,7 +22,7 @@ target might print:
 ~~~
 $ make help
 ~~~
-{: .bash}
+{: .language-bash}
 
 ~~~
 results.txt : Generate Zipf summary table.
@@ -40,7 +40,7 @@ help :
 	@echo "dats        : Count words in text files."
 	@echo "clean       : Remove auto-generated files."
 ~~~
-{: .make}
+{: .language-make}
 
 But every time we add or remove a rule, or change the description of a
 rule, we would have to update this rule too. It would be better if we
@@ -58,7 +58,7 @@ which `sed` can detect. Since Make uses `#` for comments, we can use
 
 ~~~
 ## results.txt : Generate Zipf summary table.
-results.txt : $(DAT_FILES) $(ZIPF_SRC)
+results.txt : $(ZIPF_SRC) $(DAT_FILES)
 	$(ZIPF_EXE) $(DAT_FILES) > $@
 
 ## dats        : Count words in text files.
@@ -80,7 +80,7 @@ variables:
 	@echo TXT_FILES: $(TXT_FILES)
 	@echo DAT_FILES: $(DAT_FILES)
 ~~~
-{: .make}
+{: .language-make}
 
 We use `##` so we can distinguish between comments that we want `sed`
 to automatically filter, and other comments that may describe what
@@ -91,9 +91,9 @@ We can then write a `help` target that applies `sed` to our `Makefile`:
 ~~~
 .PHONY : help
 help : Makefile
-        @sed -n 's/^##//p' $<
+	@sed -n 's/^##//p' $<
 ~~~
-{: .make}
+{: .language-make}
 
 This rule depends upon the Makefile itself. It runs `sed` on the first
 dependency of the rule, which is our Makefile, and tells `sed` to get
@@ -104,7 +104,7 @@ If we now run
 ~~~
 $ make help
 ~~~
-{: .bash}
+{: .language-bash}
 
 we get:
 

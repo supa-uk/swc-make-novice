@@ -59,9 +59,9 @@ Data files are in `data/books`.
 You can either create a simple Git repository for students to clone
 which contains:
 
-* `wordcount.py`
-* `plotcount.py`
-* `zipf_test.py`
+* `countwords.py`
+* `plotcounts.py`
+* `testzipf.py`
 * `books/`
 
 Or, ask students to download
@@ -171,6 +171,6 @@ $ export LANGUAGE=en_US.UTF-8
 {: .bash}
 
 [graphviz]: http://www.graphviz.org/
-[lesson-example]: https://github.com/swcarpentry/lesson-example/
+[lesson-example]: https://github.com/carpentries/lesson-example/
 [makefile2graph]: https://github.com/lindenb/makefile2graph
 [zipfile]: {{ page.root }}/files/make-lesson.zip

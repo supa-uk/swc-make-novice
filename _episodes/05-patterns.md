@@ -1,7 +1,7 @@
 ---
 title: "Pattern Rules"
-teaching: 15
-exercises: 15
+teaching: 10
+exercises: 0
 questions:
 - "How can I define rules to operate on similar files?"
 objectives:
@@ -14,23 +14,23 @@ keypoints:
 Our Makefile still has repeated content. The rules for each `.dat`
 file are identical apart from the text and data file names. We can
 replace these rules with a single [pattern
-rule]({{ page.root }}/reference/#pattern-rule) which can be used to build any
+rule]({{ page.root }}/reference#pattern-rule) which can be used to build any
 `.dat` file from a `.txt` file in `books/`:
 
 ~~~
-%.dat : books/%.txt wordcount.py
-	python wordcount.py $< $*.dat
+%.dat : books/%.txt countwords.py
+	python countwords.py $< $*.dat
 ~~~
-{: .make}
+{: .language-make}
 
-`%` is a Make [wildcard]({{ page.root }}/reference/#wildcard).  `$*` is a special
-variable which gets replaced by the [stem]({{ page.root }}/reference/#stem) with
+`%` is a Make [wildcard]({{ page.root }}/reference#wildcard).  `$*` is a special
+variable which gets replaced by the [stem]({{ page.root }}/reference#stem) with
 which the rule matched.
 
 This rule can be interpreted as:
 "In order to build a file named `[something].dat` (the target)
 find a file named `books/[that same something].txt` (the dependency)
-and run `wordcount.py [the dependency] [the target]`."
+and run `countwords.py [the dependency] [the target]`."
 
 If we re-run Make,
 
@@ -38,14 +38,14 @@ If we re-run Make,
 $ make clean
 $ make dats
 ~~~
-{: .bash}
+{: .language-bash}
 
 then we get:
 
 ~~~
-python wordcount.py books/isles.txt isles.dat
-python wordcount.py books/abyss.txt abyss.dat
-python wordcount.py books/last.txt last.dat
+python countwords.py books/isles.txt isles.dat
+python countwords.py books/abyss.txt abyss.dat
+python countwords.py books/last.txt last.dat
 ~~~
 {: .output}
 
@@ -55,12 +55,12 @@ and that our new rule will work no matter what stem is being matched.
 ```
 $ make sierra.dat
 ```
-{: .bash}
+{: .language-bash}
 
 which gives the output below:
 
 ```
-python wordcount.py books/sierra.txt sierra.dat
+python countwords.py books/sierra.txt sierra.dat
 ```
 {: .output}
 
@@ -76,22 +76,22 @@ Our Makefile is now much shorter and cleaner:
 
 ~~~
 # Generate summary table.
-results.txt : zipf_test.py isles.dat abyss.dat last.dat
+results.txt : testzipf.py isles.dat abyss.dat last.dat
 	python $< *.dat > $@
 
 # Count words.
 .PHONY : dats
 dats : isles.dat abyss.dat last.dat
 
-%.dat : books/%.txt wordcount.py
-	python wordcount.py $< $*.dat
+%.dat : books/%.txt countwords.py
+	python countwords.py $< $*.dat
 
 .PHONY : clean
 clean :
 	rm -f *.dat
 	rm -f results.txt
 ~~~
-{: .make}
+{: .language-make}
 
 > ## Where We Are
 >
@@ -106,8 +106,8 @@ the target of the current rule (see below),
 but then we wouldn't have learned about `$*`.
 
 ```
-%.dat : books/%.txt wordcount.py
-      python wordcount.py $< $@
+%.dat : books/%.txt countwords.py
+	python countwords.py $< $@
 ```
-{: .make}
+{: .language-make}
 

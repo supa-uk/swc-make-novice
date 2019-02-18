@@ -117,6 +117,7 @@ pre,
 samp {
   font-family: monospace, monospace;
   font-size: 1em;
+  hyphens: none;
 }
 button,
 input,

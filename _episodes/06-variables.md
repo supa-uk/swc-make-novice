@@ -1,7 +1,7 @@
 ---
 title: "Variables"
 teaching: 15
-exercises: 15
+exercises: 5
 questions:
 - "How can I eliminate redundancy in my Makefiles?"
 objectives:
@@ -12,44 +12,48 @@ keypoints:
 - "Reference variables using `$(...)`."
 ---
 
-Despite our efforts, our Makefile still has repeated content, namely
-the name of our script, `wordcount.py`. If we renamed our script we'd
-have to update our Makefile in multiple places.
+Despite our efforts, our Makefile still has repeated content, i.e.
+the name of our script -- `countwords.py`, and the program we use to run it -- `python`.
+If we renamed our script we'd have to update our Makefile in multiple places.
 
-We can introduce a Make [variable]({{ page.root }}/reference/#variable) (called a
-[macro]({{ page.root }}/reference/#macro) in some versions of Make) to hold our
+We can introduce a Make [variable]({{ page.root }}/reference#variable) (called a
+[macro]({{ page.root }}/reference#macro) in some versions of Make) to hold our
 script name:
 
 ~~~
-COUNT_SRC=wordcount.py
+COUNT_SRC=countwords.py
 ~~~
-{: .make}
+{: .language-make}
 
-This is a variable [assignment]({{ page.root }}/reference/#assignment) -
-`COUNT_SRC` is assigned the value `wordcount.py`.
+This is a variable [assignment]({{ page.root }}/reference#assignment) -
+`COUNT_SRC` is assigned the value `countwords.py`.
 
-`wordcount.py` is our script and it is invoked by passing it to
-`python`. We can introduce another variable to represent this
+`countwords.py` is our script and it is invoked by passing it to
+`python`. We can introduce another couple of variables to represent this
 execution:
 
 ~~~
-COUNT_EXE=python $(COUNT_SRC)
+LANGUAGE=python
+COUNT_EXE=$(LANGUAGE) $(COUNT_SRC)
 ~~~
-{: .make}
+{: .language-make}
 
 `$(...)` tells Make to replace a variable with its value when Make
-is run. This is a variable [reference]({{ page.root }}/reference/#reference). At
+is run. This is a variable [reference]({{ page.root }}/reference#reference). At
 any place where we want to use the value of a variable we have to
 write it, or reference it, in this way.
 
-Here we reference the variable `COUNT_SRC`. This tells Make to
-replace the variable `COUNT_SRC` with its value `wordcount.py`. When
+Here we reference the variables `LANGUAGE` and `COUNT_SRC`. This tells Make to
+replace the variable `LANGUAGE` with its value `python`,
+and to replace the variable `COUNT_SRC` with its value `countwords.py`. When
 Make is run it will assign to `COUNT_EXE` the value `python
-wordcount.py`.
+countwords.py`.
 
-Defining the variable `COUNT_EXE` in this way allows us to easily
-change how our script is run (if, for example, we changed the language
-used to implement our script from Python to R).
+Defining the variable `COUNT_EXE` in this way avoids repeating `python` in our 
+Makefile, and allows us to easily
+change how our script is run (e.g. we might want to use a different
+version of Python and need to change `python` to `python2` -- or we might want to
+rewrite the script using another language (e.g. switch from Python to R)).
 
 > ## Use Variables
 >
@@ -72,21 +76,22 @@ the original makefile). Let us create `config.mk`:
 
 ~~~
 # Count words script.
-COUNT_SRC=wordcount.py
-COUNT_EXE=python $(COUNT_SRC)
+LANGUAGE=python
+COUNT_SRC=countwords.py
+COUNT_EXE=$(LANGUAGE) $(COUNT_SRC)
 
 # Test Zipf's rule
-ZIPF_SRC=zipf_test.py
-ZIPF_EXE=python $(ZIPF_SRC)
+ZIPF_SRC=testzipf.py
+ZIPF_EXE=$(LANGUAGE) $(ZIPF_SRC)
 ~~~
-{: .make}
+{: .language-make}
 
 We can then import `config.mk` into `Makefile` using:
 
 ~~~
 include config.mk
 ~~~
-{: .make}
+{: .language-make}
 
 We can re-run Make to see that everything still works:
 
@@ -95,7 +100,7 @@ $ make clean
 $ make dats
 $ make results.txt
 ~~~
-{: .bash}
+{: .language-bash}
 
 We have separated the configuration of our Makefile from its rules,
 the parts that do all the work. If we want to change our script name

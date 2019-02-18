@@ -1,7 +1,7 @@
 ---
 title: "Functions"
 teaching: 15
-exercises: 15
+exercises: 5
 questions:
 - "How *else* can I eliminate redundancy in my Makefiles?"
 objectives:
@@ -33,9 +33,9 @@ clean :
 	rm -f *.dat
 	rm -f results.txt
 ~~~
-{: .make}
+{: .language-make}
 
-Make has many [functions]({{ page.root }}/reference/#function) which can be used to
+Make has many [functions]({{ page.root }}/reference#function) which can be used to
 write more complex rules. One example is `wildcard`. `wildcard` gets a
 list of files matching some pattern, which we can then save in a
 variable. So, for example, we can get a list of all our text files
@@ -45,7 +45,7 @@ the beginning of our makefile:
 ~~~
 TXT_FILES=$(wildcard books/*.txt)
 ~~~
-{: .make}
+{: .language-make}
 
 We can add a `.PHONY` target and rule to show the variable's value:
 
@@ -54,7 +54,7 @@ We can add a `.PHONY` target and rule to show the variable's value:
 variables:
 	@echo TXT_FILES: $(TXT_FILES)
 ~~~
-{: .make}
+{: .language-make}
 
 > ## @echo
 >
@@ -69,7 +69,7 @@ If we run Make:
 ~~~
 $ make variables
 ~~~
-{: .bash}
+{: .language-bash}
 
 We get:
 
@@ -96,7 +96,7 @@ variable:
 ~~~
 DAT_FILES=$(patsubst books/%.txt, %.dat, $(TXT_FILES))
 ~~~
-{: .make}
+{: .language-make}
 
 We can extend `variables` to show the value of `DAT_FILES` too:
 
@@ -106,14 +106,14 @@ variables:
 	@echo TXT_FILES: $(TXT_FILES)
 	@echo DAT_FILES: $(DAT_FILES)
 ~~~
-{: .make}
+{: .language-make}
 
 If we run Make,
 
 ~~~
 $ make variables
 ~~~
-{: .bash}
+{: .language-bash}
 
 then we get:
 
@@ -136,7 +136,7 @@ clean :
 	rm -f $(DAT_FILES)
 	rm -f results.txt
 ~~~
-{: .make}
+{: .language-make}
 
 Let's also tidy up the `%.dat` rule by using the automatic variable `$@` instead of `$*.dat`:
 
@@ -144,7 +144,7 @@ Let's also tidy up the `%.dat` rule by using the automatic variable `$@` instead
 %.dat : books/%.txt $(COUNT_SRC)
 	$(COUNT_EXE) $< $@
 ```
-{: .make}
+{: .language-make}
 
 Let's check:
 
@@ -152,25 +152,25 @@ Let's check:
 $ make clean
 $ make dats
 ~~~
-{: .bash}
+{: .language-bash}
 
 We get:
 
 ~~~
-python wordcount.py books/abyss.txt abyss.dat
-python wordcount.py books/isles.txt isles.dat
-python wordcount.py books/last.txt last.dat
-python wordcount.py books/sierra.txt sierra.dat
+python countwords.py books/abyss.txt abyss.dat
+python countwords.py books/isles.txt isles.dat
+python countwords.py books/last.txt last.dat
+python countwords.py books/sierra.txt sierra.dat
 ~~~
 {: .output}
 
 We can also rewrite `results.txt`: 
 
 ~~~
-results.txt : $(DAT_FILES) $(ZIPF_SRC)
+results.txt : $(ZIPF_SRC) $(DAT_FILES)
 	$(ZIPF_EXE) $(DAT_FILES) > $@
 ~~~
-{: .make}
+{: .language-make}
 
 If we re-run Make:
 
@@ -178,16 +178,16 @@ If we re-run Make:
 $ make clean
 $ make results.txt
 ~~~
-{: .bash}
+{: .language-bash}
 
 We get:
 
 ~~~
-python wordcount.py books/abyss.txt abyss.dat
-python wordcount.py books/isles.txt isles.dat
-python wordcount.py books/last.txt last.dat
-python wordcount.py books/sierra.txt sierra.dat
-python zipf_test.py  last.dat  isles.dat  abyss.dat  sierra.dat > results.txt
+python countwords.py books/abyss.txt abyss.dat
+python countwords.py books/isles.txt isles.dat
+python countwords.py books/last.txt last.dat
+python countwords.py books/sierra.txt sierra.dat
+python testzipf.py  last.dat  isles.dat  abyss.dat  sierra.dat > results.txt
 ~~~
 {: .output}
 
@@ -196,7 +196,7 @@ Let's check the `results.txt` file:
 ~~~
 $ cat results.txt
 ~~~
-{: .bash}
+{: .language-bash}
 
 ~~~
 Book	First	Second	Ratio
@@ -219,7 +219,7 @@ TXT_FILES=$(wildcard books/*.txt)
 DAT_FILES=$(patsubst books/%.txt, %.dat, $(TXT_FILES))
 
 # Generate summary table.
-results.txt : $(DAT_FILES) $(ZIPF_SRC)
+results.txt : $(ZIPF_SRC) $(DAT_FILES) 
 	$(ZIPF_EXE) $(DAT_FILES) > $@
 
 # Count words.
@@ -239,20 +239,21 @@ variables:
 	@echo TXT_FILES: $(TXT_FILES)
 	@echo DAT_FILES: $(DAT_FILES)
 ~~~
-{: .make}
+{: .language-make}
 
 Remember, the `config.mk` file contains:
 
 ~~~
 # Count words script.
-COUNT_SRC=wordcount.py
-COUNT_EXE=python $(COUNT_SRC)
+LANGUAGE=python
+COUNT_SRC=countwords.py
+COUNT_EXE=$(LANGUAGE) $(COUNT_SRC)
 
 # Test Zipf's rule
-ZIPF_SRC=zipf_test.py
-ZIPF_EXE=python $(ZIPF_SRC)
+ZIPF_SRC=testzipf.py
+ZIPF_EXE=$(LANGUAGE) $(ZIPF_SRC)
 ~~~
-{: .make}
+{: .language-make}
 
 > ## Where We Are
 >

@@ -1,7 +1,7 @@
 ---
 title: "Makefiles"
-teaching: 15
-exercises: 15
+teaching: 30
+exercises: 10
 questions:
 - "How do I write a simple Makefile?"
 objectives:
@@ -22,26 +22,26 @@ Create a file, called `Makefile`, with the following content:
 ~~~
 # Count words.
 isles.dat : books/isles.txt
-	python wordcount.py books/isles.txt isles.dat
+	python countwords.py books/isles.txt isles.dat
 ~~~
-{: .make}
+{: .language-make}
 
-This is a [build file]({{ page.root }}/reference/#build-file), which for
-Make is called a [Makefile]({{ page.root }}/reference/#makefile) - a file executed
+This is a [build file]({{ page.root }}/reference#build-file), which for
+Make is called a [Makefile]({{ page.root }}/reference#makefile) - a file executed
 by Make. Note how it resembles one of the lines from our shell script.
 
 Let us go through each line in turn:
 
 * `#` denotes a *comment*. Any text from `#` to the end of the line is
   ignored by Make.
-* `isles.dat` is a [target]({{ page.root }}/reference/#target), a file to be
+* `isles.dat` is a [target]({{ page.root }}/reference#target), a file to be
   created, or built.
-* `books/isles.txt` is a [dependency]({{ page.root }}/reference/#dependency), a
+* `books/isles.txt` is a [dependency]({{ page.root }}/reference#dependency), a
   file that is needed to build or update the target. Targets can have
   zero or more dependencies.
 * A colon, `:`, separates targets from dependencies.
-* `python wordcount.py books/isles.txt isles.dat` is an
-  [action]({{ page.root }}/reference/#action), a command to run to build or update
+* `python countwords.py books/isles.txt isles.dat` is an
+  [action]({{ page.root }}/reference#action), a command to run to build or update
   the target using the dependencies. Targets can have zero or more
   actions. These actions form a recipe to build the target
   from its dependencies and can be considered to be
@@ -52,10 +52,10 @@ Let us go through each line in turn:
   your cursor from one side of the TAB to the other. It should jump
   four or more spaces.
 * Together, the target, dependencies, and actions form a
-  [rule]({{ page.root }}/reference/#rule).
+  [rule]({{ page.root }}/reference#rule).
 
 Our rule above describes how to build the target `isles.dat` using the
-action `python wordcount.py` and the dependency `books/isles.txt`.
+action `python countwords.py` and the dependency `books/isles.txt`.
 
 Information that was implicit in our shell script - that we are
 generating a file called `isles.dat` and that creating this file
@@ -67,7 +67,7 @@ files we created earlier:
 ~~~
 $ rm *.dat *.png
 ~~~
-{: .bash}
+{: .language-bash}
 
 By default, Make looks for a Makefile, called `Makefile`, and we can
 run Make as follows:
@@ -75,12 +75,12 @@ run Make as follows:
 ~~~
 $ make
 ~~~
-{: .bash}
+{: .language-bash}
 
 By default, Make prints out the actions it executes:
 
 ~~~
-python wordcount.py books/isles.txt isles.dat
+python countwords.py books/isles.txt isles.dat
 ~~~
 {: .output}
 
@@ -99,7 +99,7 @@ Let's see if we got what we expected.
 ~~~
 head -5 isles.dat
 ~~~
-{: .bash}
+{: .language-bash}
 
 The first 5 lines of `isles.dat` should look exactly like before.
 
@@ -112,7 +112,7 @@ The first 5 lines of `isles.dat` should look exactly like before.
 > ~~~
 > $ make -f MyOtherMakefile
 > ~~~
-> {: .bash}
+> {: .language-bash}
 >
 >
 > Sometimes, the suffix `.mk` will be used to identify Makefiles that
@@ -135,14 +135,14 @@ editor, we can use the shell `touch` command to update its timestamp
 ~~~
 $ touch books/isles.txt
 ~~~
-{: .bash}
+{: .language-bash}
 
 If we compare the timestamps of `books/isles.txt` and `isles.dat`,
 
 ~~~
 $ ls -l books/isles.txt isles.dat
 ~~~
-{: .bash}
+{: .language-bash}
 
 then we see that `isles.dat`, the target, is now older
 than`books/isles.txt`, its dependency:
@@ -158,12 +158,12 @@ If we run Make again,
 ~~~
 $ make
 ~~~
-{: .bash}
+{: .language-bash}
 
 then it recreates `isles.dat`:
 
 ~~~
-python wordcount.py books/isles.txt isles.dat
+python countwords.py books/isles.txt isles.dat
 ~~~
 {: .output}
 
@@ -173,7 +173,7 @@ been updated since the target, then the actions are re-run to update
 the target. Using this approach, Make knows to only rebuild the files
 that, either directly or indirectly, depend on the file that
 changed. This is called an [incremental
-build]({{ page.root }}/reference/#incremental-build).
+build]({{ page.root }}/reference#incremental-build).
 
 > ## Makefiles as Documentation
 >
@@ -186,16 +186,16 @@ Let's add another rule to the end of `Makefile`:
 
 ~~~
 abyss.dat : books/abyss.txt
-	python wordcount.py books/abyss.txt abyss.dat
+	python countwords.py books/abyss.txt abyss.dat
 ~~~
-{: .make}
+{: .language-make}
 
 If we run Make,
 
 ~~~
 $ make
 ~~~
-{: .bash}
+{: .language-bash}
 
 then we get:
 
@@ -206,19 +206,19 @@ make: `isles.dat' is up to date.
 
 Nothing happens because Make attempts to build the first target it
 finds in the Makefile, the [default
-target]({{ page.root }}/reference/#default-target), which is `isles.dat` which is
+target]({{ page.root }}/reference#default-target), which is `isles.dat` which is
 already up-to-date. We need to explicitly tell Make we want to build
 `abyss.dat`:
 
 ~~~
 $ make abyss.dat
 ~~~
-{: .bash}
+{: .language-bash}
 
 Now, we get:
 
 ~~~
-python wordcount.py books/abyss.txt abyss.dat
+python countwords.py books/abyss.txt abyss.dat
 ~~~
 {: .output}
 
@@ -236,12 +236,12 @@ python wordcount.py books/abyss.txt abyss.dat
 > no rule in our Makefile, then we get message like:
 >
 > ~~~
-> $ make wordcount.py
+> $ make countwords.py
 > ~~~
-> {: .bash}
+> {: .language-bash}
 >
 > ~~~
-> make: Nothing to be done for `wordcount.py'.
+> make: Nothing to be done for `countwords.py'.
 > ~~~
 > {: .output}
 >
@@ -264,7 +264,7 @@ delete auto-generated files, like our `.dat` files:
 clean :
 	rm -f *.dat
 ~~~
-{: .make}
+{: .language-make}
 
 This is an example of a rule that has no dependencies. `clean` has no
 dependencies on any `.dat` file as it makes no sense to create these
@@ -274,7 +274,7 @@ not they exist. If we run Make and specify this target,
 ~~~
 $ make clean
 ~~~
-{: .bash}
+{: .language-bash}
 
 then we get:
 
@@ -294,7 +294,7 @@ $ make isles.dat abyss.dat
 $ mkdir clean
 $ make clean
 ~~~
-{: .bash}
+{: .language-bash}
 
 We get:
 
@@ -308,22 +308,22 @@ rule has no dependencies, assumes that `clean` has been built and is
 up-to-date and so does not execute the rule's actions. As we are using
 `clean` as a short-hand, we need to tell Make to always execute this
 rule if we run `make clean`, by telling Make that this is a
-[phony target]({{ page.root }}/reference/#phony-target), that it does not build
+[phony target]({{ page.root }}/reference#phony-target), that it does not build
 anything. This we do by marking the target as `.PHONY`:
 
 ~~~
 .PHONY : clean
 clean :
-        rm -f *.dat
+	rm -f *.dat
 ~~~
-{: .make}
+{: .language-make}
 
 If we run Make,
 
 ~~~
 $ make clean
 ~~~
-{: .bash}
+{: .language-bash}
 
 then we get:
 
@@ -334,14 +334,14 @@ rm -f *.dat
 
 We can add a similar command to create all the data files. We can put
 this at the top of our Makefile so that it is the [default
-target]({{ page.root }}/reference/#default-target), which is executed by default
+target]({{ page.root }}/reference#default-target), which is executed by default
 if no target is given to the `make` command:
 
 ~~~
 .PHONY : dats
 dats : isles.dat abyss.dat
 ~~~
-{: .make}
+{: .language-make}
 
 This is an example of a rule that has dependencies that are targets of
 other rules. When Make runs, it will check to see if the dependencies
@@ -368,13 +368,13 @@ If we run,
 ~~~
 $ make dats
 ~~~
-{: .bash}
+{: .language-bash}
 
 then Make creates the data files:
 
 ~~~
-python wordcount.py books/isles.txt isles.dat
-python wordcount.py books/abyss.txt abyss.dat
+python countwords.py books/isles.txt isles.dat
+python countwords.py books/abyss.txt abyss.dat
 ~~~
 {: .output}
 
@@ -384,7 +384,7 @@ Given the target `dats` has no actions, there is `nothing to be done`:
 ~~~
 $ make dats
 ~~~
-{: .bash}
+{: .language-bash}
 
 ~~~
 make: Nothing to be done for `dats'.
@@ -420,16 +420,16 @@ Our Makefile now looks like this:
 dats : isles.dat abyss.dat
 
 isles.dat : books/isles.txt
-	python wordcount.py books/isles.txt isles.dat
+	python countwords.py books/isles.txt isles.dat
 
 abyss.dat : books/abyss.txt
-	python wordcount.py books/abyss.txt abyss.dat
+	python countwords.py books/abyss.txt abyss.dat
 
 .PHONY : clean
 clean :
 	rm -f *.dat
 ~~~
-{: .make}
+{: .language-make}
 
 The following figure shows a graph of the dependencies embodied within
 our Makefile, involved in building the `dats` target:
@@ -443,7 +443,7 @@ our Makefile, involved in building the `dats` target:
 > 3. Write a new rule for `results.txt`, which creates the summary
 >    table. The rule needs to:
 >    * Depend upon each of the three `.dat` files.
->    * Invoke the action `python zipf_test.py abyss.dat isles.dat last.dat > results.txt`.
+>    * Invoke the action `python testzipf.py abyss.dat isles.dat last.dat > results.txt`.
 > 4. Put this rule at the top of the Makefile so that it is the default target.
 > 5. Update `clean` so that it removes `results.txt`.
 >

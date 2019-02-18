@@ -1,7 +1,7 @@
 ---
 title: "Conclusion"
-teaching: 15
-exercises: 15
+teaching: 5
+exercises: 30
 questions:
 - "What are the advantages and disadvantages of using tools like Make?"
 objectives:
@@ -28,12 +28,12 @@ papers.
 >
 > Add new rules, update existing rules, and add new variables to:
 >
-> * Create `.png` files from `.dat` files using `plotcount.py`.
+> * Create `.png` files from `.dat` files using `plotcounts.py`.
 > * Remove all auto-generated files (`.dat`, `.png`,
 >   `results.txt`).
 >
 > Finally, many Makefiles define a default [phony
-> target]({{ page.root }}/reference/#phony-target) called `all` as first target,
+> target]({{ page.root }}/reference#phony-target) called `all` as first target,
 > that will build what the Makefile has been written to build (e.g. in
 > our case, the `.png` files and the `results.txt` file). As others
 > may assume your Makefile conforms to convention and supports an
@@ -74,7 +74,7 @@ The following figure shows the dependencies involved in building the `all` targe
 > ~~~
 > $ cp -r [files and directories to copy] zipf_analysis/ 
 > ~~~
-> {: .bash}
+> {: .language-bash}
 >
 > * Hint: create a new variable for the `books` directory so that it can be 
 >   copied to the new `zipf_analysis` directory
@@ -84,7 +84,7 @@ The following figure shows the dependencies involved in building the `all` targe
 > ~~~
 > $ tar -czf zipf_analysis.tar.gz zipf_analysis
 > ~~~
-> {: .bash}
+> {: .language-bash}
 > 
 > * Update `all` to create `zipf_analysis.tar.gz`.
 > * Remove `zipf_analysis.tar.gz` when `make clean` is called.
@@ -104,7 +104,7 @@ The following figure shows the dependencies involved in building the `all` targe
 > data, plots and Zipf summary table?
 >
 > > ## Solution
-> > Our code files (`wordcount.py`, `plotcount.py`, `zipf_test.py`) implement
+> > Our code files (`countwords.py`, `plotcounts.py`, `testzipf.py`) implement
 > > the individual parts of our workflow. They allow us to create `.dat`
 > > files from `.txt` files, `.png` files from `.dat` files and
 > > `results.txt`. Our Makefile, however, documents dependencies between
