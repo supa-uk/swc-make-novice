@@ -6,6 +6,9 @@ Building
 
 You need to install [Jekyll](https://jekyllrb.com).  Then `make site`.
 
+See `swc-shell-novice/README-SUPA.md` for notes on the workflow.
+
+
 Appearance
 ----------
 
