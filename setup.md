@@ -39,8 +39,11 @@ follow this lesson:
 
 #### Linux
 
-Make is a standard tool on Linux systems and should already be available.
+Make is a standard tool on most Linux systems and should already be available.
 Check if you already have Make installed by typing `make -v` into a terminal.
+
+One exception is Debian, and you should install Make from the terminal using
+`sudo apt-get install make`.
 
 #### OSX
 
@@ -49,13 +52,14 @@ You will need to have Xcode installed (download from the
 Check if you already have Make installed by typing `make -v` into a terminal. 
 
 #### Windows
-Use the Software Carpentry [Windows installer](https://github.com/swcarpentry/windows-installer).
+Use the Software Carpentry
+[Windows installer](https://github.com/swcarpentry/windows-installer).
 
 ### Python
 
 Python2 or Python3, Numpy and Matplotlib are required.
 They can be installed separately, but the easiest approach is to install 
-Anaconda python <https://www.continuum.io/downloads> which includes all of the
+[Anaconda](https://www.anaconda.com/distribution/) which includes all of the
 necessary python software.
 
 [zip-file]: {{ page.root }}/files/make-lesson.zip

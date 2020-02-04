@@ -1,6 +1,6 @@
 ---
 title: "Automatic Variables"
-teaching: 15
+teaching: 10
 exercises: 5
 questions:
 - "How can I abbreviate the rules in my Makefiles?"
@@ -13,7 +13,8 @@ keypoints:
 - "Use `$<` to refer to the first dependency of the current rule."
 ---
 
-After the exercise at the end of the previous episode, our Makefile looked like this:
+After the exercise at the end of the previous episode, our Makefile looked like
+this:
 
 ~~~
 # Generate summary table.
@@ -78,7 +79,8 @@ results.txt : isles.dat abyss.dat last.dat
 ~~~
 {: .language-make}
 
-`$@` is a Make [automatic variable]({{ page.root }}/reference#automatic-variable)
+`$@` is a Make
+[automatic variable]({{ page.root }}/reference#automatic-variable)
 which means 'the target of the current rule'. When Make is run it will
 replace this variable with the target name.
 
